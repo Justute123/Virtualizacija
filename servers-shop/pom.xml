@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>spring-boot-to-do-application</artifactId>
+	<artifactId>servers-shop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot-to-do-application</name>
-	<description>Demo project for Spring Boot</description>
+	<name>servers-shop</name>
+	<description>Website for creating vms</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -64,6 +64,11 @@
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>bootstrap-icons</artifactId>
 			<version>1.10.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
