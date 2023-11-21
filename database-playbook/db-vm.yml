@@ -1,0 +1,55 @@
+---
+ - hosts: db_vm_a
+   vars_files:
+     - vault.yml
+   vars:
+     ansible_become: yes
+     ansible_become_pass: "{{ my_password }}"
+   tasks:
+   - name: Set a hostname
+     hostname:
+       name: database-vm
+   - name: install dependencies
+     apt:
+       pkg: "{{ item }}"
+       state: latest
+       update_cache: true
+     loop:
+       - postgresql
+       - python3
+       - python3-psycopg2
+       - python3-pip
+       - acl
+   - name: add pip.conf
+     copy:
+       src: pip.conf
+       dest: /etc/pip.conf
+   - name: Install ipaddress python package
+     pip:
+       name: ipaddress
+
+   - block:
+       - name: Create user
+         community.postgresql.postgresql_user:
+           name: serveriaiowner
+           password: "bananaikiausiniaimiltai"
+       - name: Create a new database
+         community.postgresql.postgresql_db:
+           name: serveriai
+           owner: serveriaiowner
+       
+       - name: Grant access from all hosts
+         community.postgresql.postgresql_pg_hba:
+           dest: /etc/postgresql/15/main/pg_hba.conf
+           contype: host
+           method: scram-sha-256
+           source: 0.0.0.0/0
+       - name: Set listen_addresses '*'
+         community.postgresql.postgresql_set:
+           name: listen_addresses
+           value: '*'
+     become_user: postgres
+   - name: Make sure a service unit is running
+     ansible.builtin.systemd:
+       state: restarted
+       name: postgresql
