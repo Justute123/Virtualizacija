@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order</title>
   <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" />
-  <link href="/Users/Juste/Virtualizavimas/Virtualizacija/servers-shop/src/main/resources/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -63,12 +62,43 @@
           <button type="submit" class="btn btn-outline-success">
             <i class="bi bi-plus-square-fill"></i>Add
           </button>
-
         </div>
       </form>
     </div>
   </div>
 </div>
 <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+<script>
+
+	class OrderInfo {
+	  constructor(os, cpu, ram, days) {
+		this.MyOS = os;
+		this.MyCPU = cpu;
+		this.MyRAM = ram;
+		this.MyDAYS = days;
+		}
+	  
+		updateValues(NewOS, NewCPU, NewRam, NewDays) {
+		this.MyOS = NewOS;
+		this.MyCPU = NewCPU;
+		this.MyRAM = NewRam;
+		this.MyDAYS = NewDays;
+		}
+	}
+
+const Order = new OrderInfo("Debian", 0.1, 512, 30);
+
+document.getElementById('addButton').addEventListener('click', function() {
+  // Get values from textboxes
+  const NewOS = document.getElementById('os').value;
+  const NewCPU = parseInt(document.getElementById('cpu').value) || 0;
+  const NewRam = parseInt(document.getElementById('ram').value) || 0;
+  const NewDays = parseInt(document.getElementById('Days').value) || 0;
+
+  // Modify the class instance based on textbox values
+  Order.updateValues(NewOS, NewCPU, NewRam, NewDays);
+  
+});
+</script>
 </body>
 </html>
