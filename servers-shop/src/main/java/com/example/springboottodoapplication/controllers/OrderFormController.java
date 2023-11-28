@@ -23,14 +23,8 @@ public class OrderFormController {
 
     @PostMapping("/order")
     public String createOrderItem(@Valid OrderItem orderItem, BindingResult result, Model model){
-//        OrderItem item = new OrderItem();
-//        item.setOs(orderItem.getOs());
-//        item.setCpu(orderItem.getCpu());
-//        item.setRam(orderItem.getRam());
-//        item.setDays(orderItem.getDays());
-
         orderItemService.save(orderItem);
-        return "redirect:/";
+        return "redirect:/orders";
     }
 
     @GetMapping("/delete/{id}")
@@ -39,6 +33,6 @@ public class OrderFormController {
                 .getById(id)
                 .orElseThrow(() -> new IllegalArgumentException("OrderItem id" + id + " not found"));
         orderItemService.delete(orderItem);
-        return "redirect:/";
+        return "redirect:/orders";
     }
 }
