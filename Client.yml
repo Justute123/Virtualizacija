@@ -1,0 +1,53 @@
+---
+- hosts: c_vm
+  vars_files:
+    - vault.yml
+  vars:
+    ansible_become: yes
+    ansible_become_pass: "{{ my_password }}"
+  tasks:
+    - name: Set a hostname
+      hostname:
+        name: client-vm
+
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install gnupg package
+      apt:
+        name: gnupg
+        state: present
+
+    - name: Add Opera GPG key
+      apt_key:
+        url: http://deb.opera.com/archive.key
+        state: present
+
+    - name: Add Opera repository
+      apt_repository:
+        repo: "deb http://deb.opera.com/opera-stable/ stable non-free"
+        state: present
+
+    - name: Install Opera browser
+      apt:
+        name: opera-stable
+        state: present
+
+    - name: Create Ordinary User
+      user:
+        name: ordinary_user
+        password: "{{ 'user123' | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+
+    - name: Add Ordinary User to sudo group
+      user:
+        name: ordinary_user
+        groups: sudo
+        append: yes
+
+    - name: Install XFCE4
+      apt:
+        name: xfce4
+        update_cache: yes
