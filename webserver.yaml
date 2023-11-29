@@ -64,8 +64,8 @@ nestedTemplate:
         description: "Number of Days to Run for nested VM"
         type: int
     scripts:
-      - name: configure_apache.sh
-        target: /var/tmp/configure_apache.sh
+      - name: apache.sh
+        target: /var/tmp/apache.sh
         permissions: "0755"
 
 networkTemplate:
