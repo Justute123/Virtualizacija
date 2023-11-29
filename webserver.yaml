@@ -1,0 +1,75 @@
+webServer:
+ name: webServer
+ cpu: $CPU$
+ memory: $MEMORY$
+ os:
+    type: $OS_TYPE$
+    arch: x86_64
+    boot:
+      - hd
+ disk:
+    image_id: 0
+ nic:
+    network: 10.0.1.10
+ context:
+    files:
+      - source: /Users/Juste/Virtualizavimas/Virtualizacija
+        target: /var/www/html
+    variables:
+      - name: CPU
+        description: "Number of CPUs"
+        type: int
+      - name: MEMORY
+        description: "Memory in MB"
+        type: int
+      - name: OS_TYPE
+        description: "Operating System Type"
+        type: str
+      - name: DAYS
+        description: "Number of Days to Run"
+        type: int
+    scripts:
+      - name: apache.sh
+        target: /var/tmp/apache.sh
+        permissions: "0755"
+
+nestedTemplate:
+ name: ClientOrderVM
+ cpu: $NESTED_CPU$
+ memory: $NESTED_MEMORY$
+ os:
+    type: $NESTED_OS_TYPE$
+    arch: x86_64
+    boot:
+      - hd
+ disk:
+    image_id: 1
+ nic:
+    network: 10.0.1.10
+ context:
+    files:
+      - source: /path/to/client-order-files
+        target: /opt/client-order-vm
+    variables:
+      - name: NESTED_CPU
+        description: "Number of CPUs for nested VM"
+        type: int
+      - name: NESTED_MEMORY
+        description: "Memory in MB for nested VM"
+        type: int
+      - name: NESTED_OS_TYPE
+        description: "Operating System Type for nested VM"
+        type: str
+      - name: NESTED_DAYS
+        description: "Number of Days to Run for nested VM"
+        type: int
+    scripts:
+      - name: configure_apache.sh
+        target: /var/tmp/configure_apache.sh
+        permissions: "0755"
+
+networkTemplate:
+ name: local
+ bridge: br0
+ vn_mad: dummy
+ public: yes
