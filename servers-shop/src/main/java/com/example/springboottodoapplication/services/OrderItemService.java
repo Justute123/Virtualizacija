@@ -2,6 +2,7 @@ package com.example.springboottodoapplication.services;
 
 import com.example.springboottodoapplication.models.OrderItem;
 import com.example.springboottodoapplication.repositories.OrderItemRepository;
+import com.example.springboottodoapplication.util.VMCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public class OrderItemService {
         if (orderItem.getId() == null){
             orderItem.setCreatedAt(Instant.now());
         }
+        VMCreator vmCreator = new VMCreator(orderItem);
+
+        vmCreator.create();
         return orderItemRepository.save(orderItem);
     }
 

@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HomeController {
+public class OrdersController {
     @Autowired
     private OrderItemService orderItemService;
 
-    @GetMapping("/")
+    @GetMapping("/orders")
     public ModelAndView index(){
-        ModelAndView modelAndView  = new ModelAndView("index");
+        ModelAndView modelAndView  = new ModelAndView("orders");
         modelAndView.addObject("orderItems", orderItemService.getAll());
         return modelAndView;
     }
