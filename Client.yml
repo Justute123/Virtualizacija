@@ -36,16 +36,44 @@
 
     - name: Create Ordinary User
       user:
-        name: ordinary_user
+        name: user
         password: "{{ 'user123' | password_hash('sha512') }}"
         shell: /bin/bash
         createhome: yes
 
     - name: Add Ordinary User to sudo group
       user:
-        name: ordinary_user
+        name: user
         groups: sudo
         append: yes
+
+    - name: Install XRDP
+      apt:
+        name: xrdp
+        state: present
+      tags:
+        - install
+
+    - name: Start XRDP service
+      systemd:
+        name: xrdp
+        state: started
+        enabled: yes
+      tags:
+        - start
+
+    - name: Configure XRDP to use XFCE
+      shell:
+        cmd: 'echo "xfce4-session" | tee ~/.xsession'
+      tags:
+        - configure
+
+    - name: Restart XRDP service for changes to take effect
+      systemd:
+        name: xrdp
+        state: restarted
+      tags:
+        - restart
 
     - name: Install XFCE4
       apt:
