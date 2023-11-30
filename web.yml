@@ -24,4 +24,4 @@
    - name: Getting Files
      copy:
          src: servers-shop-0.0.1-SNAPSHOT.jar
-         dest: /etc/maven-wrapper.jar
+         dest: /etc/servers-shop-0.0.1-SNAPSHOT.jar
