@@ -1,4 +1,12 @@
 #!/bin/sh
+
+# dependencies:
+# - ansible
+# - ssh
+# - sshpass
+# - ssh-copy-id
+# - opennebula-tools
+
 TIME_TO_SLEEP=60
 CENDPOINT=https://grid5.mif.vu.lt/cloud3/RPC2
 VAULT_PASSWORD_FILE=../Miscellaneous/vault_password

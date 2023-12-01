@@ -16,6 +16,22 @@
        name: openjdk-17-jre
        state: latest
        update_cache: true
+   - name: Install gnupg package
+     apt:
+       name: gnupg
+       state: present
+   - name: Add Opennebula-tools GPG key
+     apt_key:
+       url: https://downloads.opennebula.org/repo/repo.key
+       state: present
+   - name: Add Opennebula-tools repository
+     apt_repository:
+       repo: "deb https://downloads.opennebula.org/repo/5.6/Ubuntu/18.04 stable opennebula"
+       state: present
+    - name: Install Opennebula-tools browser
+      apt:
+        name: opennebula-tools
+        state: present
    - name: Create directory www
      file:
        path: /www
