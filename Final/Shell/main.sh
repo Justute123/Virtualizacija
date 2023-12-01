@@ -66,6 +66,10 @@ create_vm $DB_NAME $DB_USER $DB_PASSWORD $DB_TEMPLATE
 create_vm $WEB_NAME $WEB_USER $WEB_PASSWORD $WEB_TEMPLATE
 create_vm $CLIENT_NAME $CLIENT_USER $CLIENT_PASSWORD $CLIENT_TEMPLATE
 
+
+# sed -i "1s/.*/spring.datasource.url=jdbc:postgresql://$DB_IP:5432/serveriai/" ../Product/application.properties
+
+
 ansible-playbook .../Ansible/db-vm.yml --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
 ansible-playbook ../Ansible/web.yml --vault-password-file $VAULT_PASSWORD_FILE -u $WEB_USER
 ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FILE -u $CLIENT_USER
