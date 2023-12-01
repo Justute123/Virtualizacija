@@ -13,18 +13,18 @@ VAULT_PASSWORD_FILE=../Miscellaneous/vault_password
 
 DB_NAME="db_vm_a"
 DB_USER="juur8306"
-DB_PASSWORD="5f65b771dd2fdc1d232ea35bdbfed020f85e186b"
+DB_PASSWORD=""
 DB_TEMPLATE="debian12-password"
 
 WEB_NAME="webserver"
-WEB_USER="juur8306"
-WEB_PASSWORD="5f65b771dd2fdc1d232ea35bdbfed020f85e186b"
+WEB_USER="evma9687"
+WEB_PASSWORD=""
 WEB_TEMPLATE="debian12-password-www"
 
 CLIENT_NAME="c_vm"
-CLIENT_USER="juur8306"
-CLIENT_PASSWORD="5f65b771dd2fdc1d232ea35bdbfed020f85e186b"
-CLIENT_TEMPLATE="debian12-password"
+CLIENT_USER="joki5718"
+CLIENT_PASSWORD=""
+CLIENT_TEMPLATE="debian12-password-c"
 
 create_vm() {
         echo "Creating $1 VM in $2 opennebula account using $4 template"

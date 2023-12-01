@@ -12,7 +12,7 @@ Ansible and shell instaliation scripts for hosting website
 
 ## Usage
 
-at the start of the script fill in the variables of VMs
+at the start of the main.sh script fill in the variables of VMs
 
 ## Team
 
