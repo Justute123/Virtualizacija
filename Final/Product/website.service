@@ -2,7 +2,7 @@
 Description=webserver
 
 [Service]
-ExecStart=/usr/bin/java -jar /www/servers-shop-0.0.1-SNAPSHOT.jar
+ExecStart=/usr/bin/java -jar /www/servers-shop-0.0.1-SNAPSHOT.jar --spring.config.location=file:/www/application.properties
 
 [Install]
 WantedBy=multi-user.target
