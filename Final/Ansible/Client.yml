@@ -1,0 +1,81 @@
+---
+- hosts: c_vm
+  vars_files:
+    - ../Miscellaneous/vault.yml
+  vars:
+    ansible_become: yes
+    ansible_become_pass: "{{ my_password }}"
+  tasks:
+    - name: Set a hostname
+      hostname:
+        name: client-vm
+
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install gnupg package
+      apt:
+        name: gnupg
+        state: present
+
+    - name: Add Opera GPG key
+      apt_key:
+        url: http://deb.opera.com/archive.key
+        state: present
+
+    - name: Add Opera repository
+      apt_repository:
+        repo: "deb http://deb.opera.com/opera-stable/ stable non-free"
+        state: present
+
+    - name: Install Opera browser
+      apt:
+        name: opera-stable
+        state: present
+
+    - name: Create Ordinary User
+      user:
+        name: user
+        password: "{{ 'user123' | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+
+    - name: Add Ordinary User to sudo group
+      user:
+        name: user
+        groups: sudo
+        append: yes
+
+    - name: Install XRDP
+      apt:
+        name: xrdp
+        state: present
+      tags:
+        - install
+
+    - name: Start XRDP service
+      systemd:
+        name: xrdp
+        state: started
+        enabled: yes
+      tags:
+        - start
+
+    - name: Configure XRDP to use XFCE
+      shell:
+        cmd: 'echo "xfce4-session" | tee ~/.xsession'
+      tags:
+        - configure
+
+    - name: Restart XRDP service for changes to take effect
+      systemd:
+        name: xrdp
+        state: restarted
+      tags:
+        - restart
+
+    - name: Install XFCE4
+      apt:
+        name: xfce4
+        update_cache: yes
