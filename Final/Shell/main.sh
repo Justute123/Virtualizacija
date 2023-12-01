@@ -50,15 +50,15 @@ create_vm() {
         echo $CSSH_PRIP >> $ANSIBLE_HOSTS
 
 
-        if [ $1 -eq $DB_NAME ]
+        if [ "$1" = "$DB_NAME" ]
         then
                 DB_IP=$CSSH_PRIP
         fi
-        if [ $1 -eq $WEB_NAME ]
+        if [ "$1" = "$WEB_NAME" ]
         then
                 WEB_IP=$CSSH_PRIP
         fi
-        if [ $1 -eq $CLIENT_NAME ]
+        if [ "$1" = "$CLIENT_NAME" ]
         then
                 CLIENT_IP=$CSSH_PRIP
         fi
@@ -84,7 +84,7 @@ echo "db ip:$DB_IP, web ip:$WEB_IP, client ip:$CLIENT_IP"
 
 sed -i "1s/.*/spring.datasource.url=jdbc:postgresql:\/\/$DB_IP:5432\/serveriai/" ../Product/application.properties
 
-ansible-playbook .../Ansible/db-vm.yml --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
+ansible-playbook ../Ansible/db-vm.yml --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
 ansible-playbook ../Ansible/web.yml --vault-password-file $VAULT_PASSWORD_FILE -u $WEB_USER
 ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FILE -u $CLIENT_USER
 

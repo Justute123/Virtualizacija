@@ -22,15 +22,15 @@
        state: directory
    - name: Getting ServerFiles
      copy:
-         src: ../Miscellaneous/servers-shop-0.0.1-SNAPSHOT.jar
+         src: ../Product/servers-shop-0.0.1-SNAPSHOT.jar
          dest: /www/servers-shop-0.0.1-SNAPSHOT.jar
    - name: Getting Application Properties
      copy:
-         src: ../Miscellaneous/application.properties
+         src: ../Product/application.properties
          dest: /www/application.properties
    - name: Getting Application Properties
      copy:
-         src: ../Miscellaneous/website.service
+         src: ../Product/website.service
          dest: /etc/systemd/system/website.service
    - name: Start website Service
      systemd:
