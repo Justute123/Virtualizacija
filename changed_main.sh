@@ -45,7 +45,7 @@ create_vm() {
         sshpass -p $CSSH_PASSWORD ssh-copy-id -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa.pub $2@$CSSH_PRIP
 
         #uzpildom hosts faila
-        echo $1 >> $ANSIBLE_HOSTS
+        echo "[$1]" >> $ANSIBLE_HOSTS
         echo $CSSH_PRIP >> $ANSIBLE_HOSTS
 
 }
