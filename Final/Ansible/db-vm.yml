@@ -1,7 +1,7 @@
 ---
  - hosts: db_vm_a
    vars_files:
-     - vault.yml
+     - ../Miscellaneous/vault.yml
    vars:
      ansible_become: yes
      ansible_become_pass: "{{ my_password }}"
@@ -22,7 +22,7 @@
        - acl
    - name: add pip.conf
      copy:
-       src: pip.conf
+       src: ../Miscellaneous/pip.conf
        dest: /etc/pip.conf
    - name: Install ipaddress python package
      pip:

@@ -1,7 +1,7 @@
 ---
 - hosts: c_vm
   vars_files:
-    - vault.yml
+    - ../Miscellaneous/vault.yml
   vars:
     ansible_become: yes
     ansible_become_pass: "{{ my_password }}"
