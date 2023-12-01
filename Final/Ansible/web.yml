@@ -1,0 +1,31 @@
+ - hosts: webserver
+   vars_files:
+    - vault.yml
+   vars:
+    ansible_become: yes
+    ansible_become_pass: "{{ my_password }}"
+   tasks:
+   - name: Set a hostname
+     hostname:
+       name: webserver-vm
+   - name: Update debian
+     apt: 
+       update_cache: true
+   - name: Install JDK17
+     apt:
+       name: openjdk-17-jre
+       state: latest
+       update_cache: true
+   - name: Install screen
+     apt:
+       name: screen
+       state: latest
+       update_cache: true
+   - name: Getting ServerFiles
+     copy:
+         src: ../Miscellaneous/servers-shop-0.0.1-SNAPSHOT.jar
+         dest: $HOME/servers-shop-0.0.1-SNAPSHOT.jar
+   - name: Getting Application Properties
+     copy:
+         src: ../Miscellaneous/application.properties
+         dest: $HOME/application.properties
