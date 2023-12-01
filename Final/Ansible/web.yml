@@ -16,16 +16,22 @@
        name: openjdk-17-jre
        state: latest
        update_cache: true
-   - name: Install screen
-     apt:
-       name: screen
-       state: latest
-       update_cache: true
+   - name: Create directory www
+     file:
+       path: /www
+       state: directory
    - name: Getting ServerFiles
      copy:
          src: ../Miscellaneous/servers-shop-0.0.1-SNAPSHOT.jar
-         dest: $HOME/servers-shop-0.0.1-SNAPSHOT.jar
+         dest: /www/servers-shop-0.0.1-SNAPSHOT.jar
    - name: Getting Application Properties
      copy:
          src: ../Miscellaneous/application.properties
-         dest: $HOME/application.properties
+         dest: /www/application.properties
+   - name: Getting Application Properties
+     copy:
+         src: ../Miscellaneous/website.service
+         dest: /etc/systemd/system/website.service
+   - name: Start website Service
+     systemd:
+       name: website.service
