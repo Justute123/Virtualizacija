@@ -25,6 +25,8 @@
      copy:
          src: servers-shop-0.0.1-SNAPSHOT.jar
          dest: /home/ITWORK/servers-shop-0.0.1-SNAPSHOT.jar
+   - name: Run screen
+     command: screen -d -m java -jar servers-shop-0.0.1-SNAPSHOT.jar
    - name: Getting Application Properties
      copy:
          src: application.properties
