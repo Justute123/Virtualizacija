@@ -1,7 +1,7 @@
 #!/bin/sh
 TIME_TO_SLEEP=60
 CENDPOINT=https://grid5.mif.vu.lt/cloud3/RPC2
-VAULT_PASSWORD_FILE=vault_password
+VAULT_PASSWORD_FILE=../Miscellaneous/vault_password
 
 DB_NAME="db_vm_a"
 DB_USER="juur8306"
@@ -67,8 +67,8 @@ create_vm $WEB_NAME $WEB_USER $WEB_PASSWORD $WEB_TEMPLATE
 create_vm $CLIENT_NAME $CLIENT_USER $CLIENT_PASSWORD $CLIENT_TEMPLATE
 
 ansible-playbook .../Ansible/db-vm.yml --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
-ansible-playbook ../Ansible/web.yml --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
-ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
+ansible-playbook ../Ansible/web.yml --vault-password-file $VAULT_PASSWORD_FILE -u $WEB_USER
+ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FILE -u $CLIENT_USER
 
 
 
