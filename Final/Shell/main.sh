@@ -11,6 +11,7 @@ TIME_TO_SLEEP=60
 CENDPOINT=https://grid5.mif.vu.lt/cloud3/RPC2
 VAULT_PASSWORD_FILE=../Miscellaneous/vault_password
 
+# čia reikia papildyti slaptažodžiais
 DB_NAME="db_vm_a"
 DB_USER="juur8306"
 DB_PASSWORD=""
@@ -54,10 +55,16 @@ create_vm() {
         sshpass -p $CSSH_PASSWORD ssh-copy-id -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa.pub $2@$CSSH_PRIP
 
         #užpildom hosts failą
+        # irašo į ~/.ansible-hosts failą dvi: eilutes
+        # [masinos_pavadinimas_kuris_įrasytas_ansible_playbook]
+        # 10.x.x.xxx 
+        # ip gavom auksčiau
         echo "[$1]" >> $ANSIBLE_HOSTS
         echo $CSSH_PRIP >> $ANSIBLE_HOSTS
 
-
+        # čia negražu bet aš nelabai turėjau laiko
+        # priklausomai nuo to kuriai mašinai iškviesta funkcija
+        # įrašo ip į kintamąjį
         if [ "$1" = "$DB_NAME" ]
         then
                 DB_IP=$CSSH_PRIP
@@ -78,20 +85,28 @@ create_vm() {
 ANSIBLE_CONFIG=~/.ansible.cfg
 ANSIBLE_HOSTS=~/.ansible-hosts
 echo "updating ansible.cfg to use inventory file in $ANSIBLE_HOSTS"
-# ansible-config init --disabled > $ANSIBLE_CONFIG
+# įrašo eilute "[defaults]" į .ansible.cfg
 echo "[defaults]" > $ANSIBLE_CONFIG
+# įrašo eilute "inventory = /.ansible-hosts" į .ansible.cfg
 echo "inventory = $ANSIBLE_HOSTS" >> $ANSIBLE_CONFIG
+# ištrina viska iš ~/.ansible-hosts failo
 truncate -s 0 $ANSIBLE_HOSTS
 # ------------------- ATSARGIAI -----------------------
 
+# iškviečia funkciją 3 kartus su visais aprašytais viršuje parametrais
 create_vm $DB_NAME $DB_USER $DB_PASSWORD $DB_TEMPLATE
 create_vm $WEB_NAME $WEB_USER $WEB_PASSWORD $WEB_TEMPLATE
 create_vm $CLIENT_NAME $CLIENT_USER $CLIENT_PASSWORD $CLIENT_TEMPLATE
 
+# parašo visų ip
 echo "db ip:$DB_IP, web ip:$WEB_IP, client ip:$CLIENT_IP"
-
+# įrašo database ip į application.properties faila
 sed -i "1s/.*/spring.datasource.url=jdbc:postgresql:\/\/$DB_IP:5432\/serveriai/" ../Product/application.properties
 
+
+# iškviečia visus tris playbook ant skirtingų userių accountų
+# paduoda failą, kuriame yra plain text vault passwordas
+# paduoda userį kurio vardu leisti scriptą
 ansible-playbook ../Ansible/db-vm.yml --vault-password-file $VAULT_PASSWORD_FILE -u $DB_USER
 ansible-playbook ../Ansible/web.yml --vault-password-file $VAULT_PASSWORD_FILE -u $WEB_USER
 ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FILE -u $CLIENT_USER
