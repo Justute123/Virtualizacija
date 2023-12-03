@@ -62,6 +62,38 @@ create_vm() {
         echo "[$1]" >> $ANSIBLE_HOSTS
         echo $CSSH_PRIP >> $ANSIBLE_HOSTS
 
+
+        # suranda websito public ip su port ir client public ip su port
+        # gaunami port forwarding taisyklę
+        ports=$(cat $CVMID.txt | grep TCP\_PORT\_FORWARDING| cut -d '"' -f 2 )
+        # patikrinam ar pirmoj vietoj yra 8080
+        if [ "$(echo $ports | cut -d ' ' -f 1 | cut -d ':' -f 2)" = "8080" ]
+        then
+                # jei yra įrašom tinklapio public ip su port 
+                port=$(echo $ports | cut -d ' ' -f 1 | cut -d ':' -f 1)
+                HTTP=$(cat $CVMID.txt | grep PUBLIC\_IP| cut -d '"' -f 2 ):$port
+        # patikrinam ar pirmoj antroj yra 8080
+        elif [ "$(echo $ports | cut -d ' ' -f 2 | cut -d ':' -f 2)" = "8080" ]
+        then
+                # jei yra įrašom tinklapio public ip su port 
+                port=$(echo $ports | cut -d ' ' -f 2 | cut -d ':' -f 1)
+                HTTP=$(cat $CVMID.txt | grep PUBLIC\_IP| cut -d '"' -f 2 ):$port
+        fi
+        # patikrinam ar pirmoj vietoj yra 3389
+        if [ "$(echo $ports | cut -d ' ' -f 1 | cut -d ':' -f 2)" = "3389" ]
+        then
+                # jei yra įrašom tinklapio public ip su port 
+                port=$(echo $ports | cut -d ' ' -f 1 | cut -d ':' -f 1)
+                RDP=$(cat $CVMID.txt | grep PUBLIC\_IP| cut -d '"' -f 2 ):$port                
+        # patikrinam ar pirmoj antroj yra 3389
+        elif [ "$(echo $ports | cut -d ' ' -f 2 | cut -d ':' -f 2)" = "3389" ]
+        then
+                # jei yra įrašom tinklapio public ip su port 
+                port=$(echo $ports | cut -d ' ' -f 2 | cut -d ':' -f 1)
+                RDP=$(cat $CVMID.txt | grep PUBLIC\_IP| cut -d '"' -f 2 ):$port
+        fi
+
+
         # čia negražu bet aš nelabai turėjau laiko
         # priklausomai nuo to kuriai mašinai iškviesta funkcija
         # įrašo ip į kintamąjį
@@ -111,6 +143,7 @@ ansible-playbook ../Ansible/db-vm.yml --vault-password-file $VAULT_PASSWORD_FILE
 ansible-playbook ../Ansible/web.yml --vault-password-file $VAULT_PASSWORD_FILE -u $WEB_USER
 ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FILE -u $CLIENT_USER
 
-
+echo "You can connect to client mashine with rdp $RDP"
+echo "You can reach the website from WWW with $HTTP"
 
 exit 0
