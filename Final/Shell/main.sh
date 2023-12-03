@@ -145,5 +145,6 @@ ansible-playbook ../Ansible/Client.yml  --vault-password-file $VAULT_PASSWORD_FI
 
 echo "You can connect to client mashine with rdp $RDP"
 echo "You can reach the website from WWW with $HTTP"
+echo "You can reach the website from mashine with $WEB_IP"
 
 exit 0
