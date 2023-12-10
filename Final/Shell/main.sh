@@ -36,7 +36,7 @@ create_vm() {
         sleep $TIME_TO_SLEEP
         echo "Getting $1 VM details."
         $(onevm show $CVMID --user $2 --password $3  --endpoint $CENDPOINT >$CVMID.txt)
-        CSSH_CON=$(cat $CVMID.txt | grep CONNECT\_INFO1| cut -d '=' -f 2 | tr -d '"'|sed 's/'$CUSER'/root/')
+        CSSH_CON=$(cat $CVMID.txt | grep CONNECT\_INFO1| cut -d '=' -f 2 | tr -d '"'|sed 's/'$2'/root/')
         CSSH_PRIP=$(cat $CVMID.txt | grep PRIVATE\_IP| cut -d '=' -f 2 | tr -d '"')
         echo "Connection string: $CSSH_CON"
         echo "Local IP: $CSSH_PRIP"
